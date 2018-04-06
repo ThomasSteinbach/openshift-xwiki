@@ -230,7 +230,7 @@ items:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
-          - mountPath: /xwiki-data
+          - mountPath: /xwiki_data
             name: xwiki-data
         dnsPolicy: ClusterFirst
         restartPolicy: Always
