@@ -25,32 +25,45 @@ items:
 - apiVersion: v1
   kind: PersistentVolumeClaim
   metadata:
-    annotations:
-      openshift.io/generated-by: OpenShiftNewApp
+    annotations: {}
     creationTimestamp: null
-    labels:
-      app: xwiki
-      template: mysql-persistent-template
-    name: mysql
+    name: var-lib-mysql-data
   spec:
     accessModes:
     - ReadWriteOnce
     resources:
       requests:
-        storage: 30Gi
+        storage: 20Gi
+    volumeName: xwiki-var-lib-mysql-data
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    annotations: {}
+    creationTimestamp: null
+    name: xwiki-data
+  spec:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 20Gi
+    volumeName: xwiki-xwiki-data
 - apiVersion: v1
   kind: ServiceAccount
   metadata:
+    annotations: {}
     creationTimestamp: null
     name: builder
 - apiVersion: v1
   kind: ServiceAccount
   metadata:
+    annotations: {}
     creationTimestamp: null
     name: default
 - apiVersion: v1
   kind: ServiceAccount
   metadata:
+    annotations: {}
     creationTimestamp: null
     name: deployer
 - apiVersion: v1
@@ -99,7 +112,7 @@ items:
                 name: xwiki-secrets
           - name: MYSQL_DATABASE
             value: xwiki
-          image: centos/mysql-57-centos7@sha256:437b8bbacb084d2005cf17fe6ea91cad01260d1cbc75bf3cc00bc3deb17f9022
+          image: centos/mysql-57-centos7@sha256:d5632b029709619bc6982ad41defe20d2f61d1a0f757b77a6fa6638d3b9b7994
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
@@ -133,16 +146,16 @@ items:
           terminationMessagePolicy: File
           volumeMounts:
           - mountPath: /var/lib/mysql/data
-            name: mysql-data
+            name: var-lib-mysql-data
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         schedulerName: default-scheduler
         securityContext: {}
         terminationGracePeriodSeconds: 30
         volumes:
-        - name: mysql-data
+        - name: var-lib-mysql-data
           persistentVolumeClaim:
-            claimName: mysql
+            claimName: var-lib-mysql-data
     test: false
     triggers:
     - imageChangeParams:
@@ -217,16 +230,17 @@ items:
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
-          - mountPath: /xwiki_data
-            name: xwiki-1
+          - mountPath: /xwiki-data
+            name: xwiki-data
         dnsPolicy: ClusterFirst
         restartPolicy: Always
         schedulerName: default-scheduler
         securityContext: {}
         terminationGracePeriodSeconds: 30
         volumes:
-        - emptyDir: {}
-          name: xwiki-1
+        - name: xwiki-data
+          persistentVolumeClaim:
+            claimName: xwiki-data
     test: false
     triggers:
     - type: ConfigChange
