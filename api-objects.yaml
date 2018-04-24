@@ -3,6 +3,8 @@ items:
 - apiVersion: v1
   kind: ImageStream
   metadata:
+    annotations: {}
+    creationTimestamp: null
     labels:
       app: xwiki
     name: mysql
@@ -16,7 +18,7 @@ items:
         kind: DockerImage
         name: mysql:5.7
       importPolicy: {}
-      name: "latest"
+      name: latest
       referencePolicy:
         type: Source
 - apiVersion: v1
@@ -123,7 +125,7 @@ items:
                 name: xwiki-secrets
           - name: MYSQL_DATABASE
             value: xwiki
-          image: mysql:5.7
+          image: mysql@sha256:3c993a4fe9bf642fa160289187f9b377c758cb75cc9e63c61a977fdc40d96b65
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
@@ -215,9 +217,9 @@ items:
         containers:
         - env:
           - name: XWIKI_AUTHENTICATION_COOKIEDOMAINS
-            value: 127.0.0.1.nip.io
+            value: xwiki.xarif.de
           - name: XWIKI_HOME
-            value: http://xwiki-xwiki.127.0.0.1.nip.io
+            value: https://xwiki.xarif.de
           - name: XWIKI_URL_PROTOCOL
             value: http
           - name: TOMCAT_RAM
@@ -256,7 +258,6 @@ items:
     triggers:
     - type: ConfigChange
     - imageChangeParams:
-        automatic: true
         containerNames:
         - xwiki
         from:
@@ -306,16 +307,150 @@ items:
 - apiVersion: v1
   kind: Route
   metadata:
-    annotations:
-      openshift.io/host.generated: 'true'
     creationTimestamp: null
     labels:
       app: xwiki
     name: xwiki
   spec:
-    host: xwiki-OC_PROJECT_NAME.127.0.0.1.nip.io
+    host: OC_PROJECT_NAME.xarif.de
     port:
       targetPort: 8080-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: xwiki
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: xwiki
+    name: xwiki-articles
+  spec:
+    host: articles.xarif.de
+    port:
+      targetPort: 8080-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: xwiki
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: xwiki
+    name: xwiki-bildung
+  spec:
+    host: bildung.xarif.de
+    port:
+      targetPort: 8080-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: xwiki
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: xwiki
+    name: xwiki-freizeit
+  spec:
+    host: freizeit.xarif.de
+    port:
+      targetPort: 8080-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: xwiki
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: xwiki
+    name: xwiki-maintainance
+  spec:
+    host: maintainance.xarif.de
+    port:
+      targetPort: 8080-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: xwiki
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: xwiki
+    name: xwiki-pims
+  spec:
+    host: pims.xarif.de
+    port:
+      targetPort: 8080-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: xwiki
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: xwiki
+    name: xwiki-private
+  spec:
+    host: private.xarif.de
+    port:
+      targetPort: 8080-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+    to:
+      kind: Service
+      name: xwiki
+      weight: 100
+    wildcardPolicy: None
+- apiVersion: v1
+  kind: Route
+  metadata:
+    creationTimestamp: null
+    labels:
+      app: xwiki
+    name: xwiki-proficon
+  spec:
+    host: proficon.xarif.de
+    port:
+      targetPort: 8080-tcp
+    tls:
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
     to:
       kind: Service
       name: xwiki
