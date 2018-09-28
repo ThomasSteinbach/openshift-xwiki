@@ -125,7 +125,7 @@ items:
                 name: xwiki-secrets
           - name: MYSQL_DATABASE
             value: xwiki
-          image: mysql@sha256:3c993a4fe9bf642fa160289187f9b377c758cb75cc9e63c61a977fdc40d96b65
+          image: mysql@sha256:81679f23e0ece3e50a7300050191272e5afbf5b66be9b60d2ee0e8b575b152e2
           imagePullPolicy: IfNotPresent
           livenessProbe:
             failureThreshold: 3
@@ -233,7 +233,7 @@ items:
               secretKeyRef:
                 key: database-root-password
                 name: xwiki-secrets
-          image: thomass/xwiki@sha256:845e844290b222f5a3ffc673539eaf238f323659830f8ccdb813204a4dda2abe
+          image: thomass/xwiki@sha256:66fd7b4343ecf7ccb53b5447599bd4a0f21f34158c25886787ff9ca7f1701a76
           imagePullPolicy: Always
           name: xwiki
           ports:
@@ -307,6 +307,7 @@ items:
 - apiVersion: v1
   kind: Route
   metadata:
+    annotations: {}
     creationTimestamp: null
     labels:
       app: xwiki
@@ -326,6 +327,7 @@ items:
 - apiVersion: v1
   kind: Route
   metadata:
+    annotations: {}
     creationTimestamp: null
     labels:
       app: xwiki
@@ -345,6 +347,7 @@ items:
 - apiVersion: v1
   kind: Route
   metadata:
+    annotations: {}
     creationTimestamp: null
     labels:
       app: xwiki
@@ -364,6 +367,7 @@ items:
 - apiVersion: v1
   kind: Route
   metadata:
+    annotations: {}
     creationTimestamp: null
     labels:
       app: xwiki
@@ -383,6 +387,7 @@ items:
 - apiVersion: v1
   kind: Route
   metadata:
+    annotations: {}
     creationTimestamp: null
     labels:
       app: xwiki
@@ -402,6 +407,7 @@ items:
 - apiVersion: v1
   kind: Route
   metadata:
+    annotations: {}
     creationTimestamp: null
     labels:
       app: xwiki
@@ -421,6 +427,7 @@ items:
 - apiVersion: v1
   kind: Route
   metadata:
+    annotations: {}
     creationTimestamp: null
     labels:
       app: xwiki
@@ -440,6 +447,7 @@ items:
 - apiVersion: v1
   kind: Route
   metadata:
+    annotations: {}
     creationTimestamp: null
     labels:
       app: xwiki
